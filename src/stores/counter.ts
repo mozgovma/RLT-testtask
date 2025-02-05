@@ -1,12 +1,26 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
+// src/stores/itemsStore.ts
+import { defineStore } from 'pinia';
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
-  }
-
-  return { count, doubleCount, increment }
-})
+export const useItemsStore = defineStore('items', {
+  state: () => ({
+    items: [
+      { id: 1, name: 'Item 1', img: '/Item-Image-green.png', count: 5 },
+      { id: 2, name: 'Item 2', img: '/Item-Image-orange.png', count: 5 },
+      { id: 3, name: 'Item 3', img: '/Item-Image-purple.png', count: 5 },
+    ],
+  }),
+  getters: {
+    itemCount: (state) => state.items.length, // Общее количество предметов
+    getItemById: (state) => (id: number) => {
+      return state.items.find(item => item.id === id);
+    },
+  },
+  actions: {
+    decrementItemCount(id: number) {
+      const item = this.items.find(item => item.id === id);
+      if (item && item.count > 0) {
+        item.count--;
+      }
+    },
+  },
+});
