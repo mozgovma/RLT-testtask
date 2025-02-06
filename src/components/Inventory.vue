@@ -62,7 +62,7 @@
   </template>
   
   <script setup lang="ts">
-  import { useItemsStore } from '@/stores/counter.ts';
+  import { useItemsStore } from '@/stores/counter';
   import { ref, onMounted } from 'vue';
   
   const store = useItemsStore();
@@ -139,7 +139,7 @@
   
 
   const deleteItem = () => {
-  if (itemToDelete.value && quantityToDelete.value > 0) {
+  if (itemToDelete.value && quantityToDelete.value !== null && quantityToDelete.value > 0) {
     const index = store.items.findIndex((item, idx) => idx === store.items.indexOf(itemToDelete.value));
 
     if (index !== -1) {
