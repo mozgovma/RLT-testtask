@@ -94,6 +94,7 @@
 
   const openItemModal = (item: any) => {
     itemToDelete.value = item;
+    console.log(item)
     document.querySelector('.modal-overlay')?.classList.add('active');
     setTimeout(() => {
       isModalVisible.value = true;
@@ -138,19 +139,24 @@
   
 
   const deleteItem = () => {
-    if (itemToDelete.value && quantityToDelete.value > 0) {
-      const index = store.items.findIndex(item => item.id === itemToDelete.value.id);
-      if (index !== -1) {
-        store.items[index].count -= quantityToDelete.value;
-        if (store.items[index].count <= 0) {
-          store.items.splice(index, 1);
-        }
+  if (itemToDelete.value && quantityToDelete.value > 0) {
+    // Здесь мы ищем элемент не по ID, а по его позиции в сетке
+    const index = store.items.findIndex((item, idx) => idx === store.items.indexOf(itemToDelete.value));
+
+    if (index !== -1) {
+      store.items[index].count -= quantityToDelete.value;
+
+      if (store.items[index].count <= 0) {
+        // Удаляем элемент из массива, если его количество меньше или равно нулю
+        store.items.splice(index, 1);
       }
     }
-    saveInventory();
-    closeModal();
-    isInputVisible.value = false;
-  };
+  }
+  saveInventory();
+  closeModal();
+  isInputVisible.value = false;
+};
+
   
 
   const cancelDelete = () => {
