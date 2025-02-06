@@ -140,14 +140,12 @@
 
   const deleteItem = () => {
   if (itemToDelete.value && quantityToDelete.value > 0) {
-    // Здесь мы ищем элемент не по ID, а по его позиции в сетке
     const index = store.items.findIndex((item, idx) => idx === store.items.indexOf(itemToDelete.value));
 
     if (index !== -1) {
       store.items[index].count -= quantityToDelete.value;
 
       if (store.items[index].count <= 0) {
-        // Удаляем элемент из массива, если его количество меньше или равно нулю
         store.items.splice(index, 1);
       }
     }
@@ -166,7 +164,7 @@
   
   
   
-  <style scoped>
+  <style>
   
   </style>
   

@@ -20,10 +20,10 @@
   </template>
   
   <script setup>
-  // Вставь сюда логику компонента, если нужно
+
   </script>
   
-  <style scoped>
-  
+  <style >
+ 
   </style>
   
