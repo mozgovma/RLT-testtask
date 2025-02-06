@@ -27,7 +27,7 @@
         :class="{'active': isModalVisible}"
       >
         <div class="modal-content">
-
+          <button class="modal-close" @click="closeModal">✖</button>
           <div class="modal-img-container">
             <img :src="itemToDelete?.img" :alt="itemToDelete?.name" class="modal-img" />
           </div>

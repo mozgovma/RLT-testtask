@@ -12,6 +12,14 @@
 body{
   background-color: #1D1D1D;
 }
+.modal-close{
+  background-color: transparent;
+  color: white;
+  border: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 
 .input-container input::-webkit-outer-spin-button,
   .input-container input::-webkit-inner-spin-button {
