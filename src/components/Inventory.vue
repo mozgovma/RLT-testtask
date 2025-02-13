@@ -7,14 +7,16 @@
         @drop="onDrop($event, index)"
         @dragover.prevent
       >
-        <div v-if="store.items[index]" class="item">
+        <div v-if="store.items[index]" class="item"
+        :draggable="true"
+            @dragstart="onDragStart(store.items[index], index)"
+            @click="openItemModal(store.items[index])"
+        >
           <img
             :src="store.items[index].img"
             :alt="store.items[index].name"
             class="item-img"
-            :draggable="true"
-            @dragstart="onDragStart(store.items[index], index)"
-            @click="openItemModal(store.items[index])"
+
           />
           <span class="item-count">{{ store.items[index].count }}</span>
         </div>
@@ -64,13 +66,20 @@
   <script setup lang="ts">
   import { useItemsStore } from '@/stores/counter';
   import { ref, onMounted } from 'vue';
+
+  interface Item {
+  id: number,
+  img: string;
+  name: string;
+  count: number;
+}
   
   const store = useItemsStore();
   const isModalVisible = ref(false);
   const isInputVisible = ref(false);
-  const itemToDelete = ref<any>(null);
+  const itemToDelete = ref<Item | null>(null);
   const quantityToDelete = ref<number | null>(null);
-  const draggedItem = ref<any>(null); 
+  const draggedItem = ref<{item: Item; index: number}| null>(null); 
   
 
   const loadInventory = () => {
@@ -90,9 +99,11 @@
   onMounted(() => {
     loadInventory();
   });
+
+  console.log( typeof store.items)
   
 
-  const openItemModal = (item: any) => {
+  const openItemModal = (item: Item) => {
     itemToDelete.value = item;
     console.log(item)
     document.querySelector('.modal-overlay')?.classList.add('active');
@@ -109,7 +120,7 @@
   };
   
 
-  const onDragStart = (item: any, index: number) => {
+  const onDragStart = (item: Item, index: number) => {
     draggedItem.value = { item, index };
   };
   
@@ -140,7 +151,7 @@
 
   const deleteItem = () => {
   if (itemToDelete.value && quantityToDelete.value !== null && quantityToDelete.value > 0) {
-    const index = store.items.findIndex((item, idx) => idx === store.items.indexOf(itemToDelete.value));
+    const index = store.items.findIndex(item => item.id === itemToDelete.value?.id);
 
     if (index !== -1) {
       store.items[index].count -= quantityToDelete.value;
